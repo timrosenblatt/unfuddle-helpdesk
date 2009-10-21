@@ -1,7 +1,66 @@
-h1. unfuddle-mirror
+h1. Helpdesk for Unfuddle! (now 100% cleaner)
 
 A Sinatra application that provides access to Unfuddle tickets without requiring a user account. Ideal for user access to helpdesk tickets.
 
-h1. Acknowledgements
+h2. Setup
 
+h3. app_config_
+I recommend creating a separate project in Unfuddle for tracking the public tickets. Whichever project you use, you'll need a user account in that project which this app will log in as.
+
+Download the app to the location you want to edit (or deploy) in.
+
+  cp app_config.example.rb app_config.rb
+  
+In this file, set up the info for your Unfuddle account. For the subdomain, project id, ticket report id, click on the "Tickets" tab in your Unfuddle web interface, and look at the URL
+
+  http://#{subdomain}.unfuddle.com/projects/#{project_id}/ticket_reports/#{ticket_report_id}
+  
+Fill in the variables accordingly.
+
+I'm not sure how the components should be used, but what does work is listing the name of each component you have set up in Unfuddle. The number associated with each name doesn't seem to matter.
+
+h3. config.ru
+Just one simple change in here. 
+
+  ENV['TZ'] = 'Australia/Canberra'
+  
+You should change this to whatever your local time zone is. You should know that I did a quick grep through the code and don't see it used anywhere. TODO: Can we delete this?
+
+h2. Web server configuration
+
+For development, go into the root of this project and type
+
+  rackup
+
+You'll need to configure your web server to serve up this Rack application. Assuming that you deploy with Apache + Passenger, you'll be needing something like this:
+
+  <VirtualHost *:80>
+  	ServerAdmin you@bestdomainever.com
+  	RackEnv production
+
+  	DocumentRoot /srv/unfuddle-helpdesk/public     # Remember this has to point at the /public inside the app
+  	ServerName helpdesk.bestdomainever.com
+  </VirtualHost>
+
+h2. Customizing the look
+Make your helpdesk look good. Give it a logo and some basic colors to match your app/brand so that users know they're in the right place.
+
+I recommend putting the logo in /views/layout.haml, where you can put an image in the header's link.
+
+The CSS for this project is in /views/stylesheets. It uses SASS (http://sass-lang.com/) which is like CSS, but has some programming capabilities in it, and produces clean code.
+
+For my needs, I changed /views/stylesheets/screen.sass. Replace #f5f5f5 with a background color of your choice.
+
+I also changed /views/stylesheets/_base.sass. There's a reference to /images/body-bg.png that I removed, and changed the background color of that class to match my project. I also changed the tr.unassigned.odd, fieldset, and .field-help .help classes to be colors that more closely matched my project.
+
+h2. Removing caching
+
+It's not clear why, but this project is set up to use memcached. I found that it meant that after a ticket was added to the system, it wouldn't show up in this helpdesk app, but would show up in Unfuddle. So, I changed the code in TicketReport.find. You could look through the commit history and change it back if you have a need, but there may be more work required for it to work the way you want it to.
+
+TODO: Check with Tim Riley and see if we can pull the memcached code out permanently
+
+h2. Acknowledgements
+* Tim Riley, for releasing the original Unfuddle helpdesk
 * Tim Lucas, for the helpers & other various tricks from "toolmantim.com":http://github.com/toolmantim/toolmantim/tree/master/toolmantim.rb
+
+Seriously, what's up with all the Tims on this project. It's like Strike Team Tim.

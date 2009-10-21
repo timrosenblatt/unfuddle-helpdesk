@@ -1,8 +1,6 @@
-class TicketReport < UnfuddleRecord
+class TicketReport < UnfuddleRecord  
   def self.find(id)
-    hsh = Sinatra::Cache.cache("ticked_report_#{id}") do
-        get("https://#{Sinatra::Application.unfuddle_subdomain}.unfuddle.com/api/v1/projects/#{Sinatra::Application.unfuddle_project_id}/ticket_reports/#{id}/generate")['ticket_report']
-    end
+    hsh = get("https://#{Sinatra::Application.unfuddle_subdomain}.unfuddle.com/api/v1/projects/#{Sinatra::Application.unfuddle_project_id}/ticket_reports/#{id}/generate")['ticket_report']
     new(hsh)
   end
   
