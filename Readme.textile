@@ -36,10 +36,11 @@ For development, go into the root of this project and type
 
 You'll need to configure your web server to serve up this Rack application. Assuming that you deploy with Apache + Passenger, you'll be needing something like this:
 
+bq.
   <VirtualHost *:80>
   	ServerAdmin you@bestdomainever.com
   	RackEnv production
-
+  
   	DocumentRoot /srv/unfuddle-helpdesk/public     # Remember this has to point at the /public inside the app
   	ServerName helpdesk.bestdomainever.com
   </VirtualHost>
