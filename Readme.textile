@@ -10,11 +10,11 @@ I recommend creating a separate project in Unfuddle for tracking the public tick
 
 Download the app to the location you want to edit (or deploy) in.
 
-.pre  cp app_config.example.rb app_config.rb
+pre.  cp app_config.example.rb app_config.rb
   
 In this file, set up the info for your Unfuddle account. For the subdomain, project id, ticket report id, click on the "Tickets" tab in your Unfuddle web interface, and look at the URL
 
-.pre  http://#{subdomain}.unfuddle.com/projects/#{project_id}/ticket_reports/#{ticket_report_id}
+pre.  http://#{subdomain}.unfuddle.com/projects/#{project_id}/ticket_reports/#{ticket_report_id}
   
 Fill in the variables accordingly.
 
@@ -24,7 +24,7 @@ h3. config.ru
 
 Just one simple change in here. 
 
-.pre  ENV['TZ'] = 'Australia/Canberra'
+pre.  ENV['TZ'] = 'Australia/Canberra'
   
 You should change this to whatever your local time zone is. You should know that I did a quick grep through the code and don't see it used anywhere. TODO: Can we delete this?
 
@@ -32,7 +32,7 @@ h2. Web server configuration
 
 For development, go into the root of this project and type
 
-.pre  rackup
+pre.  rackup
 
 You'll need to configure your web server to serve up this Rack application. Assuming that you deploy with Apache + Passenger, you'll be needing something like this:
 
