@@ -4,7 +4,8 @@ A Sinatra application that provides access to Unfuddle tickets without requiring
 
 h2. Setup
 
-h3. app_config_
+h3. app_config.rb
+
 I recommend creating a separate project in Unfuddle for tracking the public tickets. Whichever project you use, you'll need a user account in that project which this app will log in as.
 
 Download the app to the location you want to edit (or deploy) in.
@@ -20,6 +21,7 @@ Fill in the variables accordingly.
 I'm not sure how the components should be used, but what does work is listing the name of each component you have set up in Unfuddle. The number associated with each name doesn't seem to matter.
 
 h3. config.ru
+
 Just one simple change in here. 
 
   ENV['TZ'] = 'Australia/Canberra'
@@ -43,6 +45,7 @@ You'll need to configure your web server to serve up this Rack application. Assu
   </VirtualHost>
 
 h2. Customizing the look
+
 Make your helpdesk look good. Give it a logo and some basic colors to match your app/brand so that users know they're in the right place.
 
 I recommend putting the logo in /views/layout.haml, where you can put an image in the header's link.
